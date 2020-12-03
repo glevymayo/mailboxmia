@@ -3,6 +3,14 @@ import statusReducer from './statusReducer';
 import authReducer from './authReducer';
 import adminReducer from './adminReducer';
 import commonReducer from './commonReducer';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+const rootPersistConfig = {
+    key: 'root',
+    storage: storage,
+    blacklist: ['navigation']
+  };
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -11,4 +19,4 @@ const rootReducer = combineReducers({
     common: commonReducer
 })
 
-export default rootReducer
+export default persistReducer(rootPersistConfig, rootReducer);
