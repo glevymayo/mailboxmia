@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import statusReducer from './statusReducer';
 import authReducer from './authReducer';
 import adminReducer from './adminReducer';
 import commonReducer from './commonReducer';
@@ -8,15 +7,19 @@ import storage from 'redux-persist/lib/storage';
 
 const rootPersistConfig = {
     key: 'root',
-    storage: storage,
-    blacklist: ['navigation']
+    storage: storage
   };
+
+  const commonPersistConfig = {
+    key: 'common',
+    storage: storage,
+    blacklist: ['error', 'isLoading']
+  }
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    status: statusReducer,
     admin: adminReducer,
-    common: commonReducer
+    common: persistReducer(commonPersistConfig, commonReducer)
 })
 
 export default persistReducer(rootPersistConfig, rootReducer);

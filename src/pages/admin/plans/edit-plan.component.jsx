@@ -5,7 +5,6 @@ import {db} from '../../../firebase/firebase.utils';
 export const EditPlan = () => {
     
     const idPlan = useSelector(state => {
-        console.log(state);
         return state.common.editId})
     const [id, setId] = useState(idPlan);
     const [name, setName] = useState("");
@@ -27,7 +26,6 @@ export const EditPlan = () => {
     },[])
 
     const handleSave = () => {
-        console.log('entra aca');
         db.collection("plans").doc(id).update({
             name,
             price,

@@ -1,10 +1,19 @@
+import { persistReducer } from "redux-persist"
+import storage from 'redux-persist/lib/storage';
+
 const initialState ={
     editId: -1,
     isLoading: false,
     error: ""
 }
+/*const persistConfig = {
+    key: 'common',
+    storage: storage,
+    whitelist: ['editId'],
+    blacklist: ['error', 'isLoading']
+  };*/
 
-export default function commonReducer(state = initialState, action) {
+const commonReducer = (state = initialState, action) => {
 
     switch(action.type){
         case "SET_EDIT_ID": 
@@ -16,10 +25,13 @@ export default function commonReducer(state = initialState, action) {
         case "SET_ERROR":
             return {...state, error: action.payload}
 
-        case "DELETE_ERROR":
+        case "REMOVE_ERROR":
             return {...state, error: ""}
 
         default: 
             return state
     }
 }
+
+//export default persistReducer(persistConfig, commonReducer)
+export default commonReducer

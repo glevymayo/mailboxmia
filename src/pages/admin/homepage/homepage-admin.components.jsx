@@ -1,8 +1,11 @@
 import React, {useState} from "react";
-import {loginUserWithEmailAndPassword} from "../../../redux/actions/authActions";
-import {useDispatch} from 'react-redux';
+import { useSelector } from "react-redux";
 
 export const HomepageAdmin = () =>{
-   return "";
+   const error = useSelector(state => state.common.error);
+
+   return <div>
+      <h1>This is home admin{error}</h1>
+   </div>;
 }
 

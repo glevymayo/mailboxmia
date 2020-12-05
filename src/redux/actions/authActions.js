@@ -1,6 +1,6 @@
 import firebase from '../../firebase/firebase.utils';
 
-export const loginUserWithEmailAndPassword = (email, password, dispatch) => {
+export const loginUserWithEmailAndPassword = (email, password, dispatch, history) => {
         firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
@@ -15,14 +15,15 @@ export const loginUserWithEmailAndPassword = (email, password, dispatch) => {
                 type: "LOGIN_USER",
                 payload: user
             })
+            history.push('/admin/home')
+
         })
         .catch(error => {
           //Do something with the error if you want!
           console.log('error ', error);
           dispatch( {
-            type: "LOGIN_USER_FAIL"
+            type: "SET_ERROR",
+            payload: "Please check the username and password and try again."
             })
-    
-          //return error;
         }); 
 }
