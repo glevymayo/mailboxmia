@@ -1,17 +1,9 @@
-import { persistReducer } from "redux-persist"
-import storage from 'redux-persist/lib/storage';
 
 const initialState ={
     editId: -1,
     isLoading: false,
     error: ""
 }
-/*const persistConfig = {
-    key: 'common',
-    storage: storage,
-    whitelist: ['editId'],
-    blacklist: ['error', 'isLoading']
-  };*/
 
 const commonReducer = (state = initialState, action) => {
 
@@ -33,5 +25,4 @@ const commonReducer = (state = initialState, action) => {
     }
 }
 
-//export default persistReducer(persistConfig, commonReducer)
 export default commonReducer

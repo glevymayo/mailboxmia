@@ -7,19 +7,20 @@ import storage from 'redux-persist/lib/storage';
 
 const rootPersistConfig = {
     key: 'root',
-    storage: storage
+    storage: storage,
+    whitelist: ['auth']
   };
 
-  const commonPersistConfig = {
+  /*const commonPersistConfig = {
     key: 'common',
     storage: storage,
     blacklist: ['error', 'isLoading']
-  }
+  }*/
 
 const rootReducer = combineReducers({
     auth: authReducer,
     admin: adminReducer,
-    common: persistReducer(commonPersistConfig, commonReducer)
+    common: commonReducer
 })
 
 export default persistReducer(rootPersistConfig, rootReducer);

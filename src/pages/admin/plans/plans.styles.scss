@@ -1,14 +1,21 @@
 .plans-container{
     width: 80%;
     display: flex;
+    flex: 1;
     flex-direction: column;
+    justify-content: flex-start;
+    align-self: center;
+    align-items: center;
+    align-content: center;
 }
 
 .plans-search-container{
-    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-self: stretch;
+    align-content: flex-start;
+    padding: 10px 0px;
 }
 
 .plans-table-container{
@@ -45,6 +52,10 @@
     justify-content: center;
     border: 1px solid;
 }
+#deleteButton{
+    margin-left: 5px;
+}
+
 //NEW
 .new-plan-form-container{
     width: 100%;

@@ -58,9 +58,6 @@ export const LoginAdmin = () => {
                             </IconButton>
                         </InputAdornment>
                     }}
-
-
-
                     fullWidth />
             </div>
             <div className="form-row-container text-start">

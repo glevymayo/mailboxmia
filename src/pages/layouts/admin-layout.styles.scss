@@ -1,0 +1,40 @@
+body{
+    margin: 0;
+}
+
+
+.container{
+    display: flex;
+    flex:1;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.top-nav-container{
+    display: flex;
+}
+
+.main-container{
+    display: flex;
+    flex:1;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+.menu-container{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-self: stretch;
+}
+
+.content-container{
+    display: flex;
+    flex-direction: column;
+    flex: 6;
+    align-self: stretch;
+}

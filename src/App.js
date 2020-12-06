@@ -8,19 +8,22 @@ import { NewPlan } from './pages/admin/plans/new-plan.component';
 import { createBrowserHistory } from "history";
 import { EditPlan } from './pages/admin/plans/edit-plan.component';
 import { HomepageAdmin } from './pages/admin/homepage/homepage-admin.components';
-
+import { AdminLayout } from './pages/layouts/admin-layout.component';
 
 const App = () => {
   const history = createBrowserHistory();
-
   return <div>
     <BrowserRouter history={history}>
       <Switch>
         <Route exact path='/admin' component={LoginAdmin} />
-        <Route exact path='/admin/home' component={HomepageAdmin} />
-        <Route exact path='/admin/plans/' component={ViewPlans} />
-        <Route exact path='/admin/plans/new' component={NewPlan} />
-        <Route exact path='/admin/plans/edit' component={EditPlan} />
+        <AdminLayout>
+          <Switch>
+            <Route exact path='/admin/home' component={HomepageAdmin} />
+            <Route exact path='/admin/plans/' component={ViewPlans} />
+            <Route exact path='/admin/plans/new' component={NewPlan} />
+            <Route exact path='/admin/plans/edit' component={EditPlan} />
+          </Switch>
+        </AdminLayout>
         <Route exact path='/' component={Home} />
       </Switch>
     </BrowserRouter>

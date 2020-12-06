@@ -1,73 +1,152 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import './plans.styles.scss';
-import {db} from '../../../firebase/firebase.utils';
+import { db } from '../../../firebase/firebase.utils';
+import { DataGrid } from '@material-ui/data-grid';
+import {
+    Button, InputAdornment, IconButton, TextField, Dialog, DialogActions,
+    DialogContent,
+    Snackbar
+} from '@material-ui/core';
+import {Alert} from '@material-ui/lab';
+import { Search } from '@material-ui/icons';
+
+const currencyFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
+
+const usdPrice = {
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => currencyFormatter.format(Number(value)),
+    cellClassName: 'font-tabular-nums',
+};
+
 
 
 export const ViewPlans = () => {
     const history = useHistory();
     const [plans, setPlans] = useState([])
-    const [deletePlan, setDeletePlan] = useState(0)
-    const dispatch = useDispatch();
+    const [selection, setSelection] = useState([])
+    const [open, setOpen] = useState(false)
+    const [searchValue, setSearchValue] = useState("")
+    const [action, setAction] = useState("")
+    const [actionMessage, setActionMessage] = useState(false)
 
+    const dispatch = useDispatch();
+    const columns = [
+        { field: 'name', headerName: 'Name', flex: 2 },
+        { field: 'price', headerName: 'Price', ...usdPrice },
+        { field: 'promoPrice', headerName: 'Promo Price', ...usdPrice },
+        { field: 'dueDatePromo', headerName: 'Promo end date', flex: 1, type: 'dateTime' },
+    ]
     useEffect(() => {
-        db.collection('plans').get()
-        .then(querySnapshot => {
-            setPlans(querySnapshot.docs)
-            console.log('plans',querySnapshot.docs);
-        })
-    },[deletePlan, setDeletePlan])
+        const rows = [];
+       // ref.orderBy('title').startAt(term).endAt(term + '~');
+        db.collection('plans').orderBy('name').startAt(searchValue).endAt(searchValue + '~').get()
+            .then(querySnapshot => {
+                querySnapshot.docs.map(doc => {
+                    rows.push({
+                        id: doc.id,
+                        name: doc.data().name,
+                        price: doc.data().price,
+                        promoPrice: doc.data().promoPrice,
+                        dueDatePromo: doc.data().dueDatePromo
+                    })
+                })
+                setPlans(rows)
+            })
+    }, [action, setAction])
 
     const handleEdit = (id) => {
         console.log(id)
-        dispatch({type: "SET_EDIT_ID", payload: id});
+        dispatch({ type: "SET_EDIT_ID", payload: id });
         history.push('./plans/edit')
     }
 
-    const handleDelete = (id) => {
-        db.collection("plans").doc(id).delete().then(() => {
-            console.log("Document successfully deleted!");
-        }).catch(function(error) {
-            console.error("Error removing document: ", error);
-        });
-        setDeletePlan(1)
+
+    const handleDelete = () => {
+        selection.map(sel => {
+            db.collection("plans").doc(sel).delete().then(() => {
+                console.log("Document successfully deleted!"); 
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
+            });
+            setOpen(false);
+            setAction(action+1);
+            setSelection("");
+            setActionMessage(true);
+        })
     }
     return (
         <div className="plans-container">
-            <div><h1>Planes</h1></div>
+            <div><h1>Plans</h1></div>
             <div className="plans-search-container">
-                <div className="plan-search">
-                    <input type="text" name="" id=""/>
-                </div>
                 <div className="plan-search-actions">
-                    <button type="button" onClick={() =>history.push('./plans/new') }>New Plan</button>
-                </div>
-            </div>
-            <br/>
-            <div className="plans-table-container">
-                <div className="plans-table-header-container">
-                    <div className="plan-table-title">Name</div>
-                    <div className="plan-table-title">Cost</div>
-                    <div className="plan-table-title"></div>
-                    <div className="plan-table-title">Actions</div>
-                </div>
-                <div className="plans-table-rows-container">
+                    <Button variant="contained"
+                        color="primary"
+                        onClick={() => history.push('./plans/new')}>
+                        New
+                    </Button>
                     {
-                      plans.map((plan, index) => (
-
-                      <div key={index} className="plans-table-row">
-                          <div className="plan-row">{plan.data().name}</div>
-                          <div className="plan-row">{plan.data().price}</div>
-                          <div className="plan-row">{plan.data().promoPrice}</div>
-                          <div className="plan-row">
-                              <button type="button" onClick={() => handleEdit(plan.id)}>Edit</button>
-                              <button type="button" onClick={() => handleDelete(plan.id)}>Delete</button>
-                          </div>
-                      </div>
-                      ))
+                        selection.length > 0 ?
+                            <Button id="deleteButton" variant="contained" color="secondary" onClick={() => setOpen(true)}>Delete</Button> : ''
                     }
                 </div>
+                <div className="plan-search">
+                    <TextField
+                        size="small"
+                        name="search"
+                        type="text"
+                        variant="outlined"
+                        onChange={e => {setSearchValue(e.target.value); setAction(action+1)}}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="start">
+                                <IconButton
+                                    aria-label="search"
+                                    onClick={e => setAction(action+1)}
+                                    onMouseDown={e => e.preventDefault()}
+                                >
+                                    <Search />
+                                </IconButton>
+                            </InputAdornment>
+                        }}
+                        fullWidth />
+                </div>
             </div>
+            <div className="plans-table-container">
+                <DataGrid rows={plans} columns={columns} checkboxSelection
+                    autoHeight={true}
+                    loading={null}
+                    pageSize={5}
+                    onSelectionChange={(newSelection) => {
+                        setSelection(newSelection.rowIds);
+                    }} />
+            </div>
+
+            <Dialog
+                maxWidth="xs"
+                aria-labelledby="confirmation-dialog-title"
+                open={open}
+            >
+                <DialogContent dividers>
+                    <h3>Selected plans will be deleted. Are you sure?</h3>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpen(false)} color="primary">Cancel </Button>
+                    <Button onClick={handleDelete} color="primary">Ok</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Snackbar open={actionMessage} autoHideDuration={3000} onClose={() => setActionMessage(false)}>
+                <Alert onClose={() => setActionMessage(false)} severity="success">
+                    Plan was deleted successfully!
+                </Alert>
+            </Snackbar>
+
         </div>
-)}
+
+    )
+}
