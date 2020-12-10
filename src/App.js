@@ -21,7 +21,7 @@ const App = () => {
             <Route exact path='/admin/home' component={HomepageAdmin} />
             <Route exact path='/admin/plans/' component={ViewPlans} />
             <Route exact path='/admin/plans/new' component={NewPlan} />
-            <Route exact path='/admin/plans/edit' component={EditPlan} />
+            <Route path='/admin/plans/edit/:id' component={EditPlan} />
           </Switch>
         </AdminLayout>
         <Route exact path='/' component={Home} />

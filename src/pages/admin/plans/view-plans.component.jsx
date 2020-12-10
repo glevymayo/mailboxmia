@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import './plans.styles.scss';
 import { db } from '../../../firebase/firebase.utils';
 import { DataGrid } from '@material-ui/data-grid';
-import {
-    Button, InputAdornment, IconButton, TextField, Dialog, DialogActions,
-    DialogContent,
-    Snackbar
-} from '@material-ui/core';
+import {Button, InputAdornment, IconButton, TextField, Dialog, DialogActions, DialogContent, Snackbar} from '@material-ui/core';
 import {Alert} from '@material-ui/lab';
 import { Search } from '@material-ui/icons';
 
@@ -41,36 +37,34 @@ export const ViewPlans = () => {
         { field: 'price', headerName: 'Price', ...usdPrice },
         { field: 'promoPrice', headerName: 'Promo Price', ...usdPrice },
         { field: 'dueDatePromo', headerName: 'Promo end date', flex: 1, type: 'dateTime' },
+        { field: 'id', headerName: ' ', flex: 1, 
+                renderCell: (params) => (
+                <Link to={"./plans/edit/" + params.value} className="link">
+                    <Button variant="outlined" size="small" color="primary">Edit</Button>
+                </Link>)}
+               
     ]
     useEffect(() => {
         const rows = [];
-       // ref.orderBy('title').startAt(term).endAt(term + '~');
         db.collection('plans').orderBy('name').startAt(searchValue).endAt(searchValue + '~').get()
             .then(querySnapshot => {
                 querySnapshot.docs.map(doc => {
-                    rows.push({
+                     rows.push({
                         id: doc.id,
                         name: doc.data().name,
                         price: doc.data().price,
                         promoPrice: doc.data().promoPrice,
-                        dueDatePromo: doc.data().dueDatePromo
+                        dueDatePromo: doc.data().dueDatePromo,
                     })
                 })
                 setPlans(rows)
             })
     }, [action, setAction])
 
-    const handleEdit = (id) => {
-        console.log(id)
-        dispatch({ type: "SET_EDIT_ID", payload: id });
-        history.push('./plans/edit')
-    }
-
 
     const handleDelete = () => {
         selection.map(sel => {
             db.collection("plans").doc(sel).delete().then(() => {
-                console.log("Document successfully deleted!"); 
             }).catch(function (error) {
                 console.error("Error removing document: ", error);
             });
@@ -91,8 +85,7 @@ export const ViewPlans = () => {
                         New
                     </Button>
                     {
-                        selection.length > 0 ?
-                            <Button id="deleteButton" variant="contained" color="secondary" onClick={() => setOpen(true)}>Delete</Button> : ''
+                        selection.length > 0 ? <Button id="deleteButton" variant="contained" color="secondary" onClick={() => setOpen(true)}>Delete</Button> : ''
                     }
                 </div>
                 <div className="plan-search">
@@ -119,8 +112,10 @@ export const ViewPlans = () => {
             <div className="plans-table-container">
                 <DataGrid rows={plans} columns={columns} checkboxSelection
                     autoHeight={true}
-                    loading={null}
-                    pageSize={5}
+                    rowHeight={40}
+                    loading={plans.length> 0 ? false : true}
+                    pageSize={10}
+                    rowsPerPageOptions={[5, 10, 25, 50, 100]}
                     onSelectionChange={(newSelection) => {
                         setSelection(newSelection.rowIds);
                     }} />

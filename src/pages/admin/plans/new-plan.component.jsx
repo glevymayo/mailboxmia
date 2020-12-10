@@ -1,47 +1,87 @@
+import { Breadcrumbs, Button, FormHelperText, TextField } from '@material-ui/core';
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom';
-import {CreatePlan} from '../../../redux/actions/plansActions';
+import { CreatePlan } from '../../../redux/actions/plansActions';
+import { useForm } from "react-hook-form";
 
-export const NewPlan = () => {
+
+export const NewPlan = (props) => {
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
     const [promoPrice, setPromoPrice] = useState(0);
     const [dueDatePromo, setDueDate] = useState("");
-    const history = useHistory();
+    const { register, handleSubmit, errors, getValues } = useForm();
 
-const ht = null;
+    const onSubmit = data => {
+        console.log('data ', data);
+    };
+
     const handleSave = () => {
         CreatePlan({
             name,
             price,
             promoPrice,
             dueDatePromo
-        }, history)
+        }, props.history);
     }
 
     return (
-        <div className="new-plan-form-container">
-            <div>{name}</div>
-            <div className="new-plan-row">
-                <label>Name</label>
-                <input type="text" onChange={e => setName(e.target.value)}/>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="new-plan-container">
+                <div className="new-plan-row">
+                    <Breadcrumbs>
+                        <p>admin / plans / new</p>
+                    </Breadcrumbs>
+                </div>
+                <div className="new-plan-row">
+                    <TextField name="name"
+                        type="text"
+                        label="Name"
+                        variant="outlined"
+                        inputRef={register({required: true})}
+                        onChange={e => setName(e.target.value)}
+                        fullWidth
+                         />
+                         <FormHelperText error>{errors.name && "Name is required"}</FormHelperText>
+                </div>
+                <div className="new-plan-row">
+                    <TextField name="price"
+                        type="number"
+                        min="0.01"
+                        step="0.01"
+                        label="Price"
+                        variant="outlined"
+                        inputRef={register({required: true})}
+                        onChange={e => setPrice(e.target.value)}
+                        fullWidth />                                                 
+                        <FormHelperText error>{errors.price && "Price is required"}</FormHelperText>
+                </div>
+                <div className="new-plan-row">
+                    <TextField name="promoPrice"
+                        type="number"
+                        min="0.01"
+                        step="0.01"
+                        label="Promo price"
+                        variant="outlined"
+                        onChange={e => setPromoPrice(e.target.value)}
+                        fullWidth />
+                </div>
+                <div className="new-plan-row">
+                    <TextField name="promoDueDate"
+                        type="date"
+                        label="Promo due date"
+                        variant="outlined"
+                        onChange={e => setDueDate(e.target.value)}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        fullWidth />
+                </div>
+                <div className="new-plan-row-buttons align-right">
+                    <Button type="submit" color="primary" variant="contained">Save</Button>
+                    <Button type="button" onClick={() => props.history.goBack()} color="secondary" variant="contained" id="deleteButton" >Cancel</Button>
+                </div>
             </div>
-            <div className="new-plan-row">
-                <label>Price</label>
-                <input type="number" min="0.00" step="0.01" onChange={e => setPrice(e.target.value)} />
-            </div>
-            <div className="new-plan-row">
-                <label>Promotion Price</label>
-                <input type="number" min="0.00" step="0.01" onChange={e => setPromoPrice(e.target.value)} />
-            </div>
-            <div className="new-plan-row">
-                <label>Due date</label>
-                <input type="date" onChange={e => setDueDate(e.target.value)}/>
-            </div>
-            <div className="new-plan-row">
-                <button type="button" onClick={handleSave}>Save</button>
-            </div>
-        </div>
+        </form>
     )
 }
 

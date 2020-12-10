@@ -52,14 +52,52 @@
     justify-content: center;
     border: 1px solid;
 }
+
 #deleteButton{
     margin-left: 5px;
 }
 
+.link{
+    text-decoration: none !important
+}
+
+.full-center-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: stretch;
+    align-self: stretch;
+    flex:1;
+}
+
 //NEW
-.new-plan-form-container{
-    width: 100%;
-    border: 1px solid;
+.new-plan-container{
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-self: stretch;
+    width: 70%;
+    align-content: stretch;;
+    padding: 0px 20px;
+    margin-top: 5px
 }
+
+.new-plan-row{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 5px;
+}
+.new-plan-row-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 5px;
+}
+
+.align-right{
+    align-self: flex-end;
+}
+
