@@ -9,20 +9,25 @@ export const NewPlan = (props) => {
     const [price, setPrice] = useState(0);
     const [promoPrice, setPromoPrice] = useState(0);
     const [dueDatePromo, setDueDate] = useState("");
-    const { register, handleSubmit, errors, getValues } = useForm();
+    const { register, handleSubmit, errors } = useForm();
+
+    /*const isDateInFuture = date => {
+        if (!date) { return false; }
+        const inputDate = new Date(date);
+        inputDate.setHours(0,0,0,0);
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        return !(date > today);
+      }*/
 
     const onSubmit = data => {
-        console.log('data ', data);
-    };
-
-    const handleSave = () => {
         CreatePlan({
             name,
             price,
             promoPrice,
             dueDatePromo
         }, props.history);
-    }
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -47,11 +52,10 @@ export const NewPlan = (props) => {
                     <TextField name="price"
                         type="number"
                         min="0.01"
-                        step="0.01"
                         label="Price"
                         variant="outlined"
-                        inputRef={register({required: true})}
                         onChange={e => setPrice(e.target.value)}
+                        inputProps={{step: 0.01}}
                         fullWidth />                                                 
                         <FormHelperText error>{errors.price && "Price is required"}</FormHelperText>
                 </div>
@@ -59,10 +63,10 @@ export const NewPlan = (props) => {
                     <TextField name="promoPrice"
                         type="number"
                         min="0.01"
-                        step="0.01"
                         label="Promo price"
                         variant="outlined"
                         onChange={e => setPromoPrice(e.target.value)}
+                        inputProps={{step: 0.01}}
                         fullWidth />
                 </div>
                 <div className="new-plan-row">

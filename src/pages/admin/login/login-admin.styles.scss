@@ -9,18 +9,9 @@ body > #root > div {
 
 }
 
-.form-container{
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    justify-content: center;
-	align-items: center;
-}
-
 .form-row-container{
     display: flex;
     width: 40%;
-    flex: 1;
     justify-content: center;
     padding: 15px 25px;
 }

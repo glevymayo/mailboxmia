@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../../../firebase/firebase.utils';
 import { useParams } from 'react-router-dom';
-import { Button, TextField, Breadcrumbs, CircularProgress } from '@material-ui/core';
+import { Button, TextField, FormHelperText, Breadcrumbs, CircularProgress } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from "react-hook-form";
 
 export const EditPlan = (props) => {
     const dispatch = useDispatch()
@@ -13,6 +14,7 @@ export const EditPlan = (props) => {
     const [price, setPrice] = useState(0);
     const [promoPrice, setPromoPrice] = useState(0);
     const [dueDatePromo, setDueDate] = useState("");
+    const { register, handleSubmit, errors, getValues } = useForm();
 
     //Get plan data from firestore
     useEffect(() => {
@@ -31,7 +33,7 @@ export const EditPlan = (props) => {
             })
     }, [id, setId])
 
-    const handleSave = () => {
+    const onSubmit = data => {
         db.collection("plans").doc(id).update({
             name,
             price,
@@ -55,7 +57,8 @@ export const EditPlan = (props) => {
         )
     }
 
-    return (
+    return (        
+    <form onSubmit={handleSubmit(onSubmit)}>
         <div className="new-plan-container">
             <div className="new-plan-row">
                 <Breadcrumbs>
@@ -67,30 +70,34 @@ export const EditPlan = (props) => {
                     type="text"
                     label="Name"
                     variant="outlined"
+                    inputRef={register({required: true})}
                     onChange={e => setName(e.target.value)}
                     value={name}
                     fullWidth />
+                    <FormHelperText error>{errors.name && "Name is required"}</FormHelperText>
             </div>
             <div className="new-plan-row">
                 <TextField name="price"
                     type="number"
-                    min="0.00"
-                    step="0.01"
+                    min="0.01"
                     label="Price"
                     variant="outlined"
                     value={price}
+                    inputRef={register({required: true})}
                     onChange={e => setPrice(e.target.value)}
+                    inputProps={{step: 0.01}}
                     fullWidth />
+                    <FormHelperText error>{errors.price && "Price is required"}</FormHelperText>
             </div>
             <div className="new-plan-row">
                 <TextField name="promoPrice"
                     type="number"
-                    min="0.00"
-                    step="0.01"
+                    min="0.01"
                     label="Promo price"
                     variant="outlined"
                     value={promoPrice}
                     onChange={e => setPromoPrice(e.target.value)}
+                    inputProps={{step: 0.01}}
                     fullWidth />
             </div>
             <div className="new-plan-row">
@@ -106,9 +113,10 @@ export const EditPlan = (props) => {
                     fullWidth />
             </div>
             <div className="new-plan-row align-right">
-                <Button type="button" onClick={handleSave} color="primary" variant="contained">Save</Button>
+                <Button type="submit" color="primary" variant="contained">Save</Button>
                 <Button type="button" color="secondary" variant="contained" id="deleteButton" onClick={() => history.goBack()}>Cancel</Button>        </div>
         </div>
+        </form>
     )
 }
 

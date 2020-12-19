@@ -20,57 +20,55 @@ export const LoginAdmin = () => {
             dispatch({
                 type: "REMOVE_ERROR"
             })
-          }
-    },[])
+        }
+    }, [])
 
     const handleLogin = () => {
         loginUserWithEmailAndPassword(email, password, dispatch, history)
     }
 
     return <div className="container">
-        <div className="form-container">
-            <div className="form-row-container">
-                <h2>LOGO</h2>
-            </div>
-            <div className="form-row-container">
-                <TextField required
-                    label="Email"
-                    name="Email"
-                    variant="outlined"
-                    onChange={e => setEmail(e.target.value)}
-                    fullWidth />
-            </div>
-            <div className="form-row-container">
-                <TextField required
-                    label="Password"
-                    name="password"
-                    type={showPassword}
-                    variant="outlined"
-                    onChange={e => setPassword(e.target.value)}
-                    InputProps={{
-                        endAdornment: <InputAdornment position="start">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={e => showPassword === 'password' ? setShowPassword("text") : setShowPassword("password")}
-                                onMouseDown={e => e.preventDefault()}
-                            >
-                                {showPassword === 'password' ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                        </InputAdornment>
-                    }}
-                    fullWidth />
-            </div>
-            <div className="form-row-container text-start">
-                <FormHelperText error={true}>{error}</FormHelperText>
-            </div>
-            <div className="form-row-container">
-                <Button variant="contained"
-                    color="primary"
-                    onClick={handleLogin}
-                    fullWidth>Login</Button>
-            </div>
-
+        <div className="form-row-container">
+            <h2>LOGO</h2>
         </div>
+        <div className="form-row-container">
+            <TextField required
+                label="Email"
+                name="Email"
+                variant="outlined"
+                onChange={e => setEmail(e.target.value)}
+                fullWidth />
+        </div>
+        <div className="form-row-container">
+            <TextField required
+                label="Password"
+                name="password"
+                type={showPassword}
+                variant="outlined"
+                onChange={e => setPassword(e.target.value)}
+                InputProps={{
+                    endAdornment: <InputAdornment position="start">
+                        <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={e => showPassword === 'password' ? setShowPassword("text") : setShowPassword("password")}
+                            onMouseDown={e => e.preventDefault()}
+                        >
+                            {showPassword === 'password' ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                    </InputAdornment>
+                }}
+                fullWidth />
+        </div>
+        <div className="form-row-container text-start">
+            <FormHelperText error={true}>{error}</FormHelperText>
+        </div>
+        <div className="form-row-container">
+            <Button variant="contained"
+                color="primary"
+                onClick={handleLogin}
+                fullWidth>Login</Button>
+        </div>
+
     </div>
 }
 

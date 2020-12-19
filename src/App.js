@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Home from './components/home/home.component'
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { LoginAdmin } from './pages/admin/login/login-admin.component';
 import { ViewPlans } from './pages/admin/plans/view-plans.component';
 import { NewPlan } from './pages/admin/plans/new-plan.component';
@@ -9,24 +9,35 @@ import { createBrowserHistory } from "history";
 import { EditPlan } from './pages/admin/plans/edit-plan.component';
 import { HomepageAdmin } from './pages/admin/homepage/homepage-admin.components';
 import { AdminLayout } from './pages/layouts/admin-layout.component';
+import { SignIn } from './pages/app/sign-in/sign-in.component';
+import { SignUp } from './pages/app/sign-up/sign-up.component';
 
 const App = () => {
   const history = createBrowserHistory();
   return <div>
-    <BrowserRouter history={history}>
+    <Router history={history}>
       <Switch>
-        <Route exact path='/admin' component={LoginAdmin} />
-        <AdminLayout>
+        <Route path='/admin' exact component={LoginAdmin} />
+
+        <Route path='/admin/:path?' exact>
+          <AdminLayout>
+            <Switch>
+              <Route path='/admin/home' exact component={HomepageAdmin} />
+              <Route path='/admin/plans/' exact component={ViewPlans} />
+              <Route path='/admin/plans/new' exact component={NewPlan} />
+              <Route path='/admin/plans/edit/:id' component={EditPlan} />
+            </Switch>
+          </AdminLayout>
+        </Route>
+        <Route>
           <Switch>
-            <Route exact path='/admin/home' component={HomepageAdmin} />
-            <Route exact path='/admin/plans/' component={ViewPlans} />
-            <Route exact path='/admin/plans/new' component={NewPlan} />
-            <Route path='/admin/plans/edit/:id' component={EditPlan} />
+            <Route path='/' exact component={Home} />
+            <Route path='/app/signin' component={SignIn} />
+            <Route path='/app/signup' component={SignUp} />
           </Switch>
-        </AdminLayout>
-        <Route exact path='/' component={Home} />
+        </Route>
       </Switch>
-    </BrowserRouter>
+    </Router>
   </div>
 
 }
