@@ -1,0 +1,25 @@
+body > #root > div {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    background-color: brown;
+}
+
+.top-nav-container{
+    display: flex;
+}
+
+.content{
+    display: flex;
+    flex:1;
+    justify-content: flex-start;
+    align-self: stretch;
+    background-color: blue;
+}

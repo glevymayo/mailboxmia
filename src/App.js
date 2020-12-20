@@ -11,15 +11,24 @@ import { HomepageAdmin } from './pages/admin/homepage/homepage-admin.components'
 import { AdminLayout } from './pages/layouts/admin-layout.component';
 import { SignIn } from './pages/app/sign-in/sign-in.component';
 import { SignUp } from './pages/app/sign-up/sign-up.component';
+import Main from './pages/web/main.component';
+import {WebLayout} from './pages/layouts/web-layout.components';
 
 const App = () => {
   const history = createBrowserHistory();
   return <div>
     <Router history={history}>
       <Switch>
+        <WebLayout>
+          <Switch>
+            <Route path='/web/main' exact component={Main} />
+          </Switch>
+        </WebLayout>
+
         <Route path='/admin' exact component={LoginAdmin} />
 
         <Route path='/admin/:path?' exact>
+        
           <AdminLayout>
             <Switch>
               <Route path='/admin/home' exact component={HomepageAdmin} />
