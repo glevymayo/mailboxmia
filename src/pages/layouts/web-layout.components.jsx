@@ -10,8 +10,8 @@ export const WebLayout = (props) => {
     const classes = useStyles();
 
     return (
-        <div className="container">
-            <div className="top-nav-container">
+        <div className="web-layout-container">
+            <div className="web-layout-top-nav-container">
                 <AppBar>
                     <Toolbar>
                         <Typography color="inherit">MailboxMia</Typography>
@@ -19,7 +19,7 @@ export const WebLayout = (props) => {
                 </AppBar>
                 <div className={classes.offset}></div>
             </div>
-            <div className="content">
+            <div className="web-layout-content">
                 {props.children}
             </div>
         </div>

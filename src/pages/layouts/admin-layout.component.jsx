@@ -10,8 +10,8 @@ export const AdminLayout = (props) => {
     const classes = useStyles();
 
     return (
-    <div className="container">
-        <div className="top-nav-container">
+    <div className="admin-layout-container">
+        <div className="admin-layout-top-nav-container">
             <AppBar>
                 <Toolbar>
                     <Typography color="inherit">MailboxMia</Typography>
@@ -19,11 +19,11 @@ export const AdminLayout = (props) => {
             </AppBar>
             <div className={classes.offset}></div>
         </div>
-        <div className="main-container">
-            <div className="menu-container">
+        <div className="admin-layout-main-container">
+            <div className="admin-layout-menu-container">
                 <AdminMenu />
             </div>
-            <div className="content-container">
+            <div className="admin-layout-content-container">
                 {props.children}
             </div>
         </div>

@@ -9,8 +9,6 @@ import { Loading } from './components/loading/loading.component';
 
 //DENTRO DE PERSIST GATE DENERIA IR loading={<LoadingView>} que debe ser lo que muestra en loading. Investigar bien esto
 ReactDOM.render(
-  
-  
     <Provider store={store}>
       <PersistGate loading={<Loading />} persistor={persistor}>
         <App />

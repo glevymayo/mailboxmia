@@ -1,25 +1,23 @@
 body > #root > div {
     height: 100vh;
     margin: 0;
-    padding: 0;
   }
 
-.container{
+.web-layout-container{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: stretch;
+    align-items: flex-start;
     background-color: brown;
 }
 
-.top-nav-container{
+.web-layout-top-nav-container{
     display: flex;
 }
 
-.content{
+.web-layout-content{
     display: flex;
-    flex:1;
-    justify-content: flex-start;
-    align-self: stretch;
+    flex-direction: column;
     background-color: blue;
+    border: 1px solid black
 }
