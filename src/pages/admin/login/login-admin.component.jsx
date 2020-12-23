@@ -27,11 +27,11 @@ export const LoginAdmin = () => {
         loginUserWithEmailAndPassword(email, password, dispatch, history)
     }
 
-    return <div className="container">
-        <div className="form-row-container">
+    return <div className="login-admin-container">
+        <div className="login-admin-form-row-container">
             <h2>LOGO</h2>
         </div>
-        <div className="form-row-container">
+        <div className="login-admin-form-row-container">
             <TextField required
                 label="Email"
                 name="Email"
@@ -39,7 +39,7 @@ export const LoginAdmin = () => {
                 onChange={e => setEmail(e.target.value)}
                 fullWidth />
         </div>
-        <div className="form-row-container">
+        <div className="login-admin-form-row-container">
             <TextField required
                 label="Password"
                 name="password"
@@ -59,10 +59,10 @@ export const LoginAdmin = () => {
                 }}
                 fullWidth />
         </div>
-        <div className="form-row-container text-start">
+        <div className="login-admin-form-row-container text-start">
             <FormHelperText error={true}>{error}</FormHelperText>
         </div>
-        <div className="form-row-container">
+        <div className="login-admin-form-row-container">
             <Button variant="contained"
                 color="primary"
                 onClick={handleLogin}

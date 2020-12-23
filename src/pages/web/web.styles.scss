@@ -1,5 +1,27 @@
+//GENERAL
+.simple-container{
+    display: flex;
+    flex-direction: column;
+}
+
 //MAIN
 
 .main-container{
     display: flex;
+}
+
+//WELCOME
+.welcome-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    align-self: stretch;
+    background-color: coral;
+}
+//COMMON
+.full-height-container{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
