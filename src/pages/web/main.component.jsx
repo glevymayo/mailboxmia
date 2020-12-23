@@ -8,7 +8,7 @@ const Main = () => {
     return (
         <div className="simple-container">
            <Welcome />
-           <Services></Services>
+           <Services />
         </div>
     );
 };
