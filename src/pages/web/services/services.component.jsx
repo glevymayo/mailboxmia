@@ -1,5 +1,5 @@
 import React from 'react';
-import { ServiceCard } from '../../../components/service-card/service-card.component';
+import { LogoCard } from '../../../components/logo-card/logo-card.component';
 import './services.styles.scss';
 
 export const Services = (props) => {
@@ -41,7 +41,7 @@ export const Services = (props) => {
             {
                 services.map( (service, index) => {
                     return(
-                        <ServiceCard key={index} icon={service.service.icon} title={service.service.title} description={service.service.description} />
+                        <LogoCard key={index} icon={service.service.icon} title={service.service.title} description={service.service.description} />
                     )
                 })
             }

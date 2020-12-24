@@ -27,13 +27,28 @@ export const WebAppBar = (props) => {
                             duration={1000}>Services</Link>
                     </div>
                     <div>
-                        <Link to="pricing" className="link-white">Pricing</Link>
+                    <Link to="pricing"
+                            className="link-white"
+                            spy={true}
+                            smooth={true}
+                            offset={-70}
+                            duration={1000}>Pricing</Link>
                     </div>
                     <div>
-                        <Link to="testimonial" className="link-white">Testimonial</Link>
+                    <Link to="testimonial"
+                            className="link-white"
+                            spy={true}
+                            smooth={true}
+                            offset={-70}
+                            duration={1000}>Testimonial</Link>
                     </div>
                     <div>
-                        <Link to="contact" className="link-white">Contact</Link>
+                    <Link to="contactus"
+                            className="link-white"
+                            spy={true}
+                            smooth={true}
+                            offset={-70}
+                            duration={1000}>Contact Us</Link>
                     </div>
                 </div>
 
