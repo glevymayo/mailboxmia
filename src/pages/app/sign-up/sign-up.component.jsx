@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardActions, CardContent, Button, TextField, FormHelperText } from '@material-ui/core';
+import { Card, CardActions, CardContent, Button, TextField, FormHelperText, Typography } from '@material-ui/core';
 import './sign-up.styles.scss';
-import { PlanBox } from '../../../components/plan-box/plan-box.components';
 import { db } from '../../../firebase/firebase.utils'
 import { useForm } from "react-hook-form";
+import FacebookIcon from '@material-ui/icons/Facebook';
+import { CreditCardForm } from '../../../components/credit-card-form/credit-card-form.component';
 
 export const SignUp = props => {
     const [plans, setPlans] = useState([]);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [firstName, setFirstName] = useState("");
+   
     const { register, handleSubmit, errors, getValues } = useForm();
 
-    //'/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
     useEffect(() => {
         const rows = [];
         db.collection('plans').orderBy('price').get()
@@ -31,17 +27,18 @@ export const SignUp = props => {
                 })
                 setPlans(rows)
             });
-    },[])
+    }, [])
 
     const onSubmit = data => {
-       console.log(data);
+        console.log(data);
     };
 
+    console.log('errors: ', errors);
     return (
-        
+
         <form className="container" onSubmit={handleSubmit(onSubmit)}>
             <Card className="card-container">
-                <h2>Create your account</h2>
+                <h2 style={{ align: 'center', fontFamily: 'Lato' }}>Create your account with E-mail and Password</h2>
                 <CardContent>
                     <div className="fields-row">
                         <div className="field-cell">
@@ -50,11 +47,13 @@ export const SignUp = props => {
                                 label="Last Name"
                                 name="lastName"
                                 type="text"
-                                onChange={e => {setLastName(e.target.value)}}
                                 variant="outlined"
-                                inputRef={register({required: true})}
+                                inputRef={register({
+                                    required: { value: true, message: "Field is required" }
+                                })}
+                                error={errors.lastName !== undefined}
+                                helperText={errors.lastName ? errors.lastName.message : ""}
                                 fullWidth />
-                                <FormHelperText error>{errors.lastName && "Last name is required"}</FormHelperText>
                         </div>
                         <div className="field-cell right-field">
                             <TextField
@@ -62,11 +61,13 @@ export const SignUp = props => {
                                 label="First Name"
                                 name="firstName"
                                 type="text"
-                                onChange={e => {setFirstName(e.target.value)}}
                                 variant="outlined"
-                                inputRef={register({required: true})}
+                                inputRef={register({
+                                    required: { value: true, message: "Field is required" }
+                                })}
+                                error={errors.firstName !== undefined}
+                                helperText={errors.firstName ? errors.firstName.message : ""}
                                 fullWidth />
-                                {errors.firstName && (<FormHelperText error>First name is required</FormHelperText>)}
                         </div>
                     </div>
                     <div className="field-cell">
@@ -75,28 +76,31 @@ export const SignUp = props => {
                             label="Email"
                             name="email"
                             type="email"
-                            onChange={e => {setEmail(e.target.value)}}
-                            inputRef={register({required: true, 
-                                                pattern: /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i})}
+                            inputRef={register({
+                                required: { value: true, message: 'Email is required' },
+                                pattern: { value: /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i, message: 'Email format not accepted' }
+                            })}
                             variant="outlined"
+                            error={errors.email !== undefined}
+                            helperText={errors.email ? errors.email.message : ""}
                             fullWidth />
-                    
-                            {errors.email && errors.email.type === "required" && (<FormHelperText error>Email is required</FormHelperText>)}
-                            {errors.email && errors.email.type === "pattern" && (<FormHelperText error>Email format not accepted</FormHelperText>)}
                     </div>
                     <div className="fields-row">
                         <div className="field-cell">
+
                             <TextField
                                 size="small"
                                 label="Password"
                                 name="password"
                                 type="password"
-                                onChange={e => {setPassword(e.target.value)}}
-                                inputRef={register({required: true, validate: value => value === getValues("confirmPassword")})}
+                                inputRef={register({
+                                    required: { value: true, message: 'Field is required' },
+                                    validate: value => value === getValues("confirmPassword") || 'Password must match confirmatio'
+                                })}
+                                error={errors.password !== undefined}
+                                helperText={errors.password ? errors.password.message : ""}
                                 variant="outlined"
-                                fullWidth />                                
-                                {errors.password && errors.password.type === "validate" && (<FormHelperText error>Password must match confirmation</FormHelperText>)}
-                                {errors.password && errors.password.type === "required" && (<FormHelperText error>Password is required</FormHelperText>)}
+                                fullWidth />
 
                         </div>
                         <div className="field-cell right-field">
@@ -105,34 +109,21 @@ export const SignUp = props => {
                                 label="Confirm password"
                                 name="confirmPassword"
                                 type="password"
-                                onChange={e => {setConfirmPassword(e.target.value)}}
                                 inputRef={register}
                                 variant="outlined"
                                 fullWidth />
                         </div>
                     </div>
-                    <div className="fields-row">
-                        <h3>Select a plan</h3>
-                    </div>
-                    <div className="fields-row">
-                            {
-                                plans.map((plan, index) => (
-                                    <div key={index} className="plan-cell">
-                                    <PlanBox
-                                        id={plan.id}
-                                        title={plan.name}
-                                        content={plan.description}
-                                        price={plan.price}
-                                        buttonText="Select"
-                                    />
-                                    </div>
-                                ))
-                            }
-
-                     </div>
+                   <CreditCardForm/>
                 </CardContent>
                 <CardActions>
-                    <Button variant="outlined" color="primary" type="submit">Next</Button>
+                    <div className="field-cell">
+                        <Button variant="contained" color="primary" type="submit">Registrarse con email</Button>
+                        <div className="align-center"><Typography variant="body1">or</Typography></div>
+                        <Button variant="contained" color="primary" fullWidth>
+                            <FacebookIcon/> Loguearse con facebook
+                        </Button>
+                    </div>
                 </CardActions>
             </Card>
         </form>

@@ -8,7 +8,7 @@ export const LogoCard = (props) => {
             <Card style={{ height: '100%'}}>
                 <CardContent>
                     <div className="logo-card-header">
-                        <Icon style={{ fontSize: 100 }} color="secondary">{props.icon}</Icon>
+                        <Icon style={{ fontSize: 60 }} color="secondary">{props.icon}</Icon>
                     </div>
 
                     <div className="logo-card-title">

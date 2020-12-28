@@ -1,0 +1,26 @@
+.contactus-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin-top: 70px;
+}
+
+.contact-form-row{
+    display: flex;
+    padding: 10px 20px;
+}
+
+.align-right{
+    align-items: flex-start;    
+}
+
+.footer{
+    display: flex;
+    background-color: khaki;
+
+}
+
+.offset{
+    offset: 0;
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import '../web.styles.scss';
 import './welcome.styles.scss'
 
@@ -8,9 +8,15 @@ export const Welcome = (props) => {
         <div id="welcome" className="welcome-container">
             <div className="welcome-column"></div>
             <div className="welcome-column font-black">
-                <div><h1>YOUR DREAMS CAME TRUE</h1></div>
-                <div><h3>Have your personal address in USA</h3></div>
-                <div><Button color="primary" variant="contained">Get a free address</Button></div>
+                <div className="border">
+                    <p className="title">
+                        OBTEN TU DIRECCION EN ESTADOS UNIDOS
+                    </p>
+                    <p className="subTitle">
+                        Registrate y obten tu propia direcci&oacute;n en Miami y un servicio postal personalizado.
+                     </p>
+                </div>
+                <div><Button color="primary" variant="contained">Accede a tu dirección gratiuta</Button></div>
             </div>
         </div>
     );

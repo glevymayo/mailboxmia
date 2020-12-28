@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
-import { Link, animateScroll as scroll } from "react-scroll";
+import { Link } from "react-scroll";
 import './web-app-bar.styles.scss';
 
 export const WebAppBar = (props) => {
@@ -35,19 +35,19 @@ export const WebAppBar = (props) => {
                             duration={1000}>Pricing</Link>
                     </div>
                     <div>
-                    <Link to="testimonial"
+                    <Link to="testimonials"
                             className="link-white"
                             spy={true}
                             smooth={true}
                             offset={-70}
-                            duration={1000}>Testimonial</Link>
+                            duration={1000}>Testimonials</Link>
                     </div>
                     <div>
                     <Link to="contactus"
                             className="link-white"
                             spy={true}
                             smooth={true}
-                            offset={-70}
+                            offset={0}
                             duration={1000}>Contact Us</Link>
                     </div>
                 </div>

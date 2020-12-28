@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import './web-layout.styles.scss';
 import { WebAppBar } from '../web/web-app-bar/web-app-bar.components';
 

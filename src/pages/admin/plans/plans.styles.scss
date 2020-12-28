@@ -101,3 +101,14 @@
     align-self: flex-end;
 }
 
+.new-plan-multi-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.new-plan-half-row{
+    display: flex;
+    flex: 1;
+    padding: 5px;
+}
+

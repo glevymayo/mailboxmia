@@ -11,7 +11,7 @@ export const Services = (props) => {
         }},
         {service: {
             title: 'Package storage',
-            description: 'Make all your purchases and ship to us. We store your packages until you pick them up',
+            description: 'We store your packages until you pick them up',
             icon: 'redeem'
         }},
         {service: {

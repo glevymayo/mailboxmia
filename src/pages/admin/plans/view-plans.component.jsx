@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
 import './plans.styles.scss';
 import { db } from '../../../firebase/firebase.utils';
 import { DataGrid } from '@material-ui/data-grid';
@@ -31,7 +30,6 @@ export const ViewPlans = () => {
     const [action, setAction] = useState("")
     const [actionMessage, setActionMessage] = useState(false)
 
-    const dispatch = useDispatch();
     const columns = [
         { field: 'name', headerName: 'Name', flex: 2 },
         { field: 'price', headerName: 'Price', ...usdPrice },
@@ -49,7 +47,7 @@ export const ViewPlans = () => {
         db.collection('plans').orderBy('name').startAt(searchValue).endAt(searchValue + '~').get()
             .then(querySnapshot => {
                 querySnapshot.docs.map(doc => {
-                     rows.push({
+                     return rows.push({
                         id: doc.id,
                         name: doc.data().name,
                         price: doc.data().price,

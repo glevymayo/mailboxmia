@@ -1,0 +1,36 @@
+.testimonial-container{
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 20%;
+    height: 65vh;
+    margin: 15px;
+    padding: 20px 40px;
+    background-color: white;
+    box-shadow: 2px 4px lightgrey;
+}
+
+.testimonial-avatar{
+    display: flex;
+    align-self: center;
+}
+
+.testimonial-title{
+    font-family: 'Caveat';
+    font-size: 30pt;
+    padding: 10px 0px;
+}
+
+.testimonial-text{
+    font-family: 'Caveat';
+    font-size: 20pt;
+}
+
+.testimonial-name{
+    display: flex;
+    flex:1;
+    justify-content: flex-end;
+    align-self: flex-end;
+    font-family: 'Caveat';
+    font-size: 16pt;
+    
+}

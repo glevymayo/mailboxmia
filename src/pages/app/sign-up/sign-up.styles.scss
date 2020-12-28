@@ -1,6 +1,3 @@
-body > #root > div {
-    height: 100vh;
-  }
 .container{
     display: flex;
     justify-content: center;
@@ -34,5 +31,10 @@ body > #root > div {
     justify-content: center;
     align-self: stretch;
     padding: 0px 5px;
+}
+
+.align-center{
+    display: flex;
+    align-self: center;
 }
 
