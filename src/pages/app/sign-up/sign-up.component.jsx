@@ -114,7 +114,7 @@ export const SignUp = props => {
                                 fullWidth />
                         </div>
                     </div>
-                   <CreditCardForm/>
+                   <CreditCardForm size="small" />
                 </CardContent>
                 <CardActions>
                     <div className="field-cell">

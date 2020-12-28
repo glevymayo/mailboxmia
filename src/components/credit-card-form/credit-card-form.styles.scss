@@ -1,4 +1,9 @@
 .credit-card-form-container{
     display: flex;
-    flex-direction: column;
+    align-self: stretch;
+    border: 1px solid black
+}
+
+.cc-field-padding {
+    padding: 5px;
 }

@@ -1,30 +1,49 @@
-    import React from 'react';
-import {Select, MenuItem, TextField} from '@material-ui/core';
+import React from 'react';
+import { Select, MenuItem, TextField } from '@material-ui/core';
 import './credit-card-form.styles.scss';
 
 export const CreditCardForm = (props) => {
-    return (
-        <div className="credit-card-form-container">
-            <TextField variant="outlined" label="Card holder" />
-            <TextField variant="outlined" label="Card number" />
-            <div className="credit-card-form-row">
+  let i = 1;
+
+  
+    const months = []
+    for(i = 1; i <= 12; i++){
+      months.push(<MenuItem value={i}>{i}</MenuItem>)
+  }
+
+  const years = [];
+  const curDate = new Date();
+    for(i = curDate.getFullYear(); i <= curDate.getFullYear() + 10; i++){
+      years.push(<MenuItem value={i}>{i}</MenuItem>)
+  }
+
+  return (
+    <div className="credit-card-form-container">
+      
+      <TextField variant="outlined" label="Card number" size={props.size}/>
         <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
+        variant="outlined"
+        className="cc-field-padding"
+          name="cc-month"
           value={""}
-          onChange={()=>console.log('')}
-          label="Age"
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          onChange={() => console.log('')}
+          label="Month"
+          size={props.size}>
+          {months}        
         </Select>
-            <TextField variant="outlined" />
-            </div>
-            <TextField variant="outlined" />
-        </div>
-    );
+        /
+        <Select
+        variant="outlined"
+         className="cc-field-padding"
+          name="cc-year"
+          value={""}
+          onChange={() => console.log('')}
+          label="Year"
+          size={props.size}>
+          {years}        
+        </Select>
+        <TextField variant="outlined" label="CCV" size={props.size}  className="cc-field-padding" />
+      
+    </div>
+  );
 };
