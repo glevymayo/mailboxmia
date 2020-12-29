@@ -17,10 +17,44 @@ export const CreditCardForm = (props) => {
       years.push(<MenuItem value={i}>{i}</MenuItem>)
   }
 
+  const handleCCDate = (e) => {
+    const key = e.key;
+    const val = e.target.value;
+    const newValue = val.toString().concat(key.toString())
+    if(isNaN(key)){
+        e.preventDefault();
+    }
+
+    switch (val.length) {
+          
+          case 0:
+              if(key > 1){
+                  e.preventDefault();
+              }
+              break;
+
+          case 1:
+              if(newValue > 12){
+                e.preventDefault();
+              }
+              else{
+                  e.target.value = newValue.concat('/');
+                  e.preventDefault()
+              }
+              break;
+
+          case 2:
+              console.log('0');
+              break;
+          default:
+              console.log('value');
+              break;
+      }
+  }
   return (
     <div className="credit-card-form-container">
       
-      <TextField variant="outlined" label="Card number" size={props.size}/>
+      <TextField variant="outlined" label="Card number" size={props.size} onKeyPress={(e)=>handleCCDate(e)} />
         <Select
         variant="outlined"
         className="cc-field-padding"
@@ -28,7 +62,8 @@ export const CreditCardForm = (props) => {
           value={""}
           onChange={() => console.log('')}
           label="Month"
-          size={props.size}>
+          size={props.size}
+          >
           {months}        
         </Select>
         /
