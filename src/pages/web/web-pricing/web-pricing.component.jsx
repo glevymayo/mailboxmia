@@ -3,10 +3,16 @@ import './web-pricing.styles.scss';
 import {Container, Typography, Grid} from '@material-ui/core';
 import {Pricing} from '../../../components/pricing/pricing.component';
 import { db } from '../../../firebase/firebase.utils';
- 
+import { useHistory } from "react-router-dom";
+
 export const WebPricing = (props) => {
   const [plans, setPlans] = useState([])
-  
+  const history = useHistory();
+
+  const handleClick = (data) => {
+    history.push({data})
+}
+
   useEffect( () => {
     db.collection('plans').orderBy("price").get()
     .then(result => {
@@ -36,11 +42,10 @@ export const WebPricing = (props) => {
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           {plans ? plans.map((plan, index) => {
-            console.log('plan', plan);
             return(
             // Enterprise card is full width at sm breakpoint
             <Grid item key={index} xs={12} sm={6} md={3}>
-                <Pricing plan={plan}/>
+                <Pricing plan={{plan}} onClick={() => handleClick({pathname: '../app/signup', data: {plan}})}/>
               </Grid>)
           }) : ""
         

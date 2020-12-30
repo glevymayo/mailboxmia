@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const Pricing = ({plan}) => {
-console.log('entro al plan con termino', plan.terms)
+export const Pricing = (props) => {
   const classes = useStyles();
-
+  
+  const {plan} = props.plan
   return(
     <Card>
       <CardHeader
@@ -64,7 +64,7 @@ console.log('entro al plan con termino', plan.terms)
         </ul>
       </CardContent>
       <CardActions>
-        <Button fullWidth variant={plan.recommended ? 'contained' : 'outlined'} color="primary">
+        <Button fullWidth variant={plan.recommended ? 'contained' : 'outlined'} color="primary" onClick={()=>props.onClick()}>
           Select
       </Button>
       </CardActions>
