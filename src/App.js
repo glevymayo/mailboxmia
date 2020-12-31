@@ -9,8 +9,9 @@ import { createBrowserHistory } from "history";
 import { EditPlan } from './pages/admin/plans/edit-plan.component';
 import { HomepageAdmin } from './pages/admin/homepage/homepage-admin.components';
 import { AdminLayout } from './pages/layouts/admin-layout.component';
+import { BlankLayout } from './pages/layouts/blank-layout.component';
 import { SignIn } from './pages/app/sign-in/sign-in.component';
-import {SignUp} from './pages/app/sign-up/sign-up.component';
+import { SignUp } from './pages/app/sign-up/sign-up.component';
 import Main from './pages/web/main.component';
 import { WebLayout } from './pages/layouts/web-layout.components';
 
@@ -38,12 +39,20 @@ const App = () => {
             </Switch>
           </AdminLayout>
         </Route>
-        <Route>
+        <Route path='/app/:path?'>
+          <BlankLayout>
           <Switch>
             <Route path='/' exact component={Home} />
-            <Route path='/app/signin' component={SignIn} />
-            <Route path='/app/signup' component={SignUp} />
+            <Route path='/app/signin' exact component={SignIn} />
           </Switch>
+          </BlankLayout>
+          
+          <WebLayout>
+            <Switch>
+              <Route path='/app/signup' exact component={SignUp} />
+            </Switch>
+          </WebLayout>
+          
         </Route>
       </Switch>
     </Router>

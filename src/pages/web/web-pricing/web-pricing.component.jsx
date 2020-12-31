@@ -10,7 +10,7 @@ export const WebPricing = (props) => {
   const history = useHistory();
 
   const handleClick = (data) => {
-    history.push({data})
+    history.push(data)
 }
 
   useEffect( () => {
@@ -45,7 +45,7 @@ export const WebPricing = (props) => {
             return(
             // Enterprise card is full width at sm breakpoint
             <Grid item key={index} xs={12} sm={6} md={3}>
-                <Pricing plan={{plan}} onClick={() => handleClick({pathname: '../app/signup', data: {plan}})}/>
+                <Pricing plan={{plan}} onClick={() => handleClick({pathname: '/app/signup', data: {plan}})}/>
               </Grid>)
           }) : ""
         

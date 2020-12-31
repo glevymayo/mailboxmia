@@ -5,32 +5,25 @@ import { db } from '../../../firebase/firebase.utils'
 import { useForm } from "react-hook-form";
 import FacebookIcon from '@material-ui/icons/Facebook';
 import { CreditCardForm } from '../../../components/credit-card-form/credit-card-form.component';
+import {useLocation} from 'react-router-dom';
 
 export const SignUp = props => {
-    const [plans, setPlans] = useState([]);
-   
+
+const location = useLocation();
+    
+    const {plan} = location.data ? location.data : null;
     const { register, handleSubmit, errors, getValues } = useForm();
 
     useEffect(() => {
-        const rows = [];
-        db.collection('plans').orderBy('price').get()
-            .then(querySnapshot => {
-                querySnapshot.docs.map(doc => {
-                    rows.push({
-                        id: doc.id,
-                        name: doc.data().name,
-                        price: doc.data().price,
-                        promoPrice: doc.data().promoPrice,
-                        dueDatePromo: doc.data().dueDatePromo,
-                        description: doc.data().description
-                    })
-                })
-                setPlans(rows)
-            });
+       console.log('useeffect');
     }, [])
 
     const onSubmit = data => {
-        console.log(data);
+        /* Debo dar de alta el usuario en auth y en la db */
+
+        /* debo dar de alta la tarjeta en stripe */
+
+        /* debo cobrar el servicio primer mes */
     };
 
     console.log('errors: ', errors);
@@ -114,15 +107,15 @@ export const SignUp = props => {
                                 fullWidth />
                         </div>
                     </div>
-                   <CreditCardForm size="small" register={register} errors={errors}/>
+                   {plan.price > 0 ? <CreditCardForm size="small" register={register} errors={errors}/> : ''}
                 </CardContent>
                 <CardActions>
                     <div className="field-cell">
                         <Button variant="contained" color="primary" type="submit">Registrarse con email</Button>
-                        <div className="align-center"><Typography variant="body1">or</Typography></div>
+                       {/*} <div className="align-center"><Typography variant="body1">or</Typography></div>
                         <Button variant="contained" color="primary" fullWidth>
                             <FacebookIcon/> Loguearse con facebook
-                        </Button>
+                            </Button>*/}
                     </div>
                 </CardActions>
             </Card>
