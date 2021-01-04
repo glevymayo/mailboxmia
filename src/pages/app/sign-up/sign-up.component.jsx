@@ -1,32 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardActions, CardContent, Button, TextField, FormHelperText, Typography } from '@material-ui/core';
+import React from 'react';
+import { Card, CardActions, CardContent, Button, TextField } from '@material-ui/core';
 import './sign-up.styles.scss';
-import { db } from '../../../firebase/firebase.utils'
 import { useForm } from "react-hook-form";
-import FacebookIcon from '@material-ui/icons/Facebook';
+//import FacebookIcon from '@material-ui/icons/Facebook';
 import { CreditCardForm } from '../../../components/credit-card-form/credit-card-form.component';
-import {useLocation} from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+import { signupWithEmailAndPassword, createUserProfileDocument } from '../../../firebase/firebase.utils';
+
 
 export const SignUp = props => {
 
-const location = useLocation();
-    
-    const {plan} = location.data ? location.data : null;
+    const location = useLocation();
+    const history = useHistory();
     const { register, handleSubmit, errors, getValues } = useForm();
 
-    useEffect(() => {
-       console.log('useeffect');
-    }, [])
+    if(!location.data){
+        history.push('../web/main');
+        return null;
+    }
 
-    const onSubmit = data => {
+    const { plan } = location.data ? location.data : null;
+
+    const onSubmit = async data => {
         /* Debo dar de alta el usuario en auth y en la db */
-
+        const user = await signupWithEmailAndPassword(data.email, data.password);
+        const userRef = await createUserProfileDocument(user, null);
         /* debo dar de alta la tarjeta en stripe */
+        if (userRef) {
 
+        }
+        else {
+            console.log('error onsubmit', user);
+        }
         /* debo cobrar el servicio primer mes */
     };
 
-    console.log('errors: ', errors);
     return (
 
         <form className="container" onSubmit={handleSubmit(onSubmit)}>
@@ -107,12 +115,12 @@ const location = useLocation();
                                 fullWidth />
                         </div>
                     </div>
-                   {plan.price > 0 ? <CreditCardForm size="small" register={register} errors={errors}/> : ''}
+                    {plan.price > 0 ? <CreditCardForm size="small" register={register} errors={errors} /> : ''}
                 </CardContent>
                 <CardActions>
                     <div className="field-cell">
                         <Button variant="contained" color="primary" type="submit">Registrarse con email</Button>
-                       {/*} <div className="align-center"><Typography variant="body1">or</Typography></div>
+                        {/*} <div className="align-center"><Typography variant="body1">or</Typography></div>
                         <Button variant="contained" color="primary" fullWidth>
                             <FacebookIcon/> Loguearse con facebook
                             </Button>*/}

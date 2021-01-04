@@ -15,6 +15,28 @@ const config = {
   };
 
 
+  
+  const firebaseApp = firebase.initializeApp(config);
+  export const auth = firebase.auth();
+  export const firestore = firebase.firestore();
+  export const db = firebaseApp.firestore();
+
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({prompt: 'select_account'});
+  export const signInWithGoogle = () => auth.signInWithPopup(provider);
+
+  export const signupWithEmailAndPassword = async (email, password) => {
+    return firebase.auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then( (Snapshot) => {
+      return Snapshot.user;
+    })
+    .catch((error) => {
+      console.log('error signupWithEmailAndPassword ', error);
+      return error
+    })
+  }
+
   export const signinWithEmailAndPassword = (email, password) => {
     firebase
     .auth()
@@ -30,48 +52,38 @@ const config = {
     })
     .catch(error => {
       //Do something with the error if you want!
-      console.log('error ', error);
       return error;
     });
 
   }
 
   export const createUserProfileDocument = async (userAuth, additionalData) => {
-      console.log('userauth', userAuth);
       if(!userAuth) return;
 
-    const userRef = firestore.doc(`users/${userAuth.uid}`)  ;
+    const userRef = db.collection('users').where('email','==',userAuth.email);
     const snapShot = await userRef.get();
     
-    console.log(snapShot);
     if(!snapShot.exists){
-        const {displayName, email} = userAuth;
+        const {displayName, email, uid} = userAuth;
         const createdAt= new Date();
-
+        const userAdded = {
+          displayName: displayName === null ? '': displayName,
+          email,
+          uid,
+          createdAt,
+          ...additionalData
+      };
         try{
-            await userRef.set({
-                displayName,
-                email,
-                createdAt,
-                ...additionalData
-            })
+            await firestore.collection('users').add(userAdded)
         }
         catch(error){
-            console.log('error creating user ', error.message);
+            console.log('error creating user createUserProfileDocument ', error.message);
+            return error;
         }
     }
 
     return userRef;
   }
 
-  const firebaseApp = firebase.initializeApp(config);
-  export const auth = firebase.auth();
-  export const firestore = firebase.firestore();
-
-  const provider = new firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({prompt: 'select_account'});
-  export const signInWithGoogle = () => auth.signInWithPopup(provider);
-
-  export const db = firebaseApp.firestore();
 
   export default firebase;

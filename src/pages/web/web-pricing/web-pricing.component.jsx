@@ -38,7 +38,6 @@ export const WebPricing = (props) => {
         </Typography>
       </Container>
       {/* End hero unit */}
-      {console.log('loading', plans)}
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           {plans ? plans.map((plan, index) => {
